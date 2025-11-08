@@ -1,0 +1,122 @@
+{
+  "about": {
+    "bio": "A visual architect and storyteller, I specialize in crafting compelling narratives through the language of motion and visual effects. With a foundation in cinematic principles and a relentless pursuit of technical innovation, I transform abstract concepts into tangible, emotive experiences. My studio is a laboratory where light, texture, and movement converge to build worlds, evoke emotion, and leave a lasting impact.",
+    "imageUrl": "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?q=80&w=1974&auto=format&fit=crop"
+  },
+  "skills": [
+    { "name": "After Effects" },
+    { "name": "Cinema 4D" },
+    { "name": "Houdini" },
+    { "name": "Redshift" },
+    { "name": "Octane" },
+    { "name": "Nuke" },
+    { "name": "Figma" },
+    { "name": "Unreal Engine" },
+    { "name": "Blender" },
+    { "name": "ZBrush" }
+  ],
+  "testimonials": [
+    {
+      "quote": "Vikas is a rare talent who combines world-class technical skill with a profound understanding of narrative pacing. He didn't just animate our assets; he gave our story a heartbeat.",
+      "author": "Ava Chen",
+      "company": "Director, Nexus Films"
+    },
+    {
+      "quote": "Working with Vikas was a masterclass in collaboration. His creative vision is immense, yet he's incredibly receptive to feedback, making the entire process seamless and the final product extraordinary.",
+      "author": "Ben Carter",
+      "company": "Brand Manager, Quantum Dynamics"
+    },
+    {
+      "quote": "The level of polish and detail in his VFX work is second to none. Vikas delivered a sequence that became the most talked-about moment of our entire series.",
+      "author": "Olivia Reed",
+      "company": "Showrunner, Epoch Television"
+    }
+  ],
+  "projects": [
+    {
+      "id": "aetherium",
+      "title": "Aetherium",
+      "category": "VFX",
+      "thumbnail": "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop",
+      "heroMedia": { "type": "image", "src": "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2071&auto=format&fit=crop" },
+      "client": "Nexus Films",
+      "year": 2023,
+      "tools": ["Houdini", "Nuke", "Redshift"],
+      "description": "An award-winning short film title sequence exploring the formation of a mythical element. Using Houdini for particle simulations and Redshift for rendering, we created a visual ballet of cosmic dust and ethereal light, setting a tone of mystery and grandeur.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1614236087938-16e53784a27c?q=80&w=1939&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1620421680383-3052a3533513?q=80&w=1974&auto=format&fit=crop"
+      ]
+    },
+    {
+      "id": "cybernetic-pulse",
+      "title": "Cybernetic Pulse",
+      "category": "UI Animation",
+      "thumbnail": "https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "heroMedia": { "type": "video", "src": "https://videos.pexels.com/video-files/3214466/3214466-hd_1920_1080_25fps.mp4" },
+      "client": "Odyssey Interactive",
+      "year": 2024,
+      "tools": ["Figma", "After Effects", "Illustrator"],
+      "description": "A complete FUI (Futuristic User Interface) package for a AAA sci-fi game. Designed in Figma and animated in After Effects, the system includes dynamic HUDs, interactive menus, and environmental data visualizations, all built to enhance player immersion."
+    },
+    {
+      "id": "solstice",
+      "title": "Solstice",
+      "category": "Motion Graphics",
+      "thumbnail": "https://images.unsplash.com/photo-1528645602411-bbeb1d56342f?q=80&w=1964&auto=format&fit=crop",
+      "heroMedia": { "type": "youtube", "src": "fXn_4-30y2g" },
+      "client": "Helios Energy",
+      "year": 2023,
+      "tools": ["Cinema 4D", "Octane", "After Effects"],
+      "description": "Brand anthem video for a luxury solar energy company. This piece uses elegant, minimalist 3D animation to illustrate the relationship between the sun, technology, and nature. Rendered in Octane for photorealistic quality."
+    },
+    {
+      "id": "the-silent-city",
+      "title": "The Silent City",
+      "category": "Title Sequence",
+      "thumbnail": "https://images.unsplash.com/photo-1444703686981-a3abbc4d42e2?q=80&w=2070&auto=format&fit=crop",
+      "heroMedia": { "type": "image", "src": "https://images.unsplash.com/photo-1508909263914-99d63c393843?q=80&w=1974&auto=format&fit=crop" },
+      "client": "Epoch Television",
+      "year": 2022,
+      "tools": ["Blender", "After Effects", "RealityCapture"],
+      "description": "A title sequence for a post-apocalyptic drama. We used photogrammetry scans of abandoned locations and integrated them with stark, brutalist typography to create a haunting and atmospheric opening that establishes the show's world."
+    },
+    {
+      "id": "oracle",
+      "title": "Oracle",
+      "category": "VFX",
+      "thumbnail": "https://images.unsplash.com/photo-1561736778-92e52a77699c?q=80&w=2070&auto=format&fit=crop",
+      "heroMedia": { "type": "video", "src": "https://videos.pexels.com/video-files/1526909/1526909-hd_1920_1080_25fps.mp4" },
+      "client": "Elysian Fragrances",
+      "year": 2024,
+      "tools": ["Maya", "Bifrost", "Arnold", "Nuke"],
+      "description": "A series of complex fluid and particle simulations for a high-concept perfume commercial. The visuals represent the scent's abstract notes transforming from liquid chaos into an elegant, structured form."
+    },
+    {
+      "id": "quantum-shift",
+      "title": "Quantum Shift",
+      "category": "Motion Graphics",
+      "thumbnail": "https://images.unsplash.com/photo-1599343358763-a3d5377a2e2e?q=80&w=1974&auto=format&fit=crop",
+      "heroMedia": { "type": "youtube", "src": "_2w1Jqr8pSc" },
+      "client": "Quantum Dynamics",
+      "year": 2023,
+      "tools": ["After Effects", "Cinema 4D", "Redshift"],
+      "description": "An explainer video for a quantum computing startup. We translated highly complex scientific principles into an accessible and visually stunning animated journey, using abstract geometric forms and a cohesive visual language to simplify the message."
+    },
+    {
+      "id": "terraforma",
+      "title": "Terraforma",
+      "category": "VFX",
+      "thumbnail": "https://images.unsplash.com/photo-1593724044552-3285a07c994c?q=80&w=1974&auto=format&fit=crop",
+      "heroMedia": { "type": "image", "src": "https://images.unsplash.com/photo-1593724044552-3285a07c994c?q=80&w=1974&auto=format&fit=crop" },
+      "client": "Personal Exploration",
+      "year": 2024,
+      "tools": ["Unreal Engine 5", "Gaea", "ZBrush"],
+      "description": "A personal project exploring procedural world-building in Unreal Engine 5. This real-time environment showcases advanced techniques in foliage, atmospheric scattering, and dynamic lighting to create a photorealistic alien landscape.",
+      "gallery": [
+        "https://images.unsplash.com/photo-1517394543788-99183499a2a7?q=80&w=2070&auto=format&fit=crop",
+        "https://images.unsplash.com/photo-1582298514424-81134017b355?q=80&w=1974&auto=format&fit=crop"
+      ]
+    }
+  ]
+}
