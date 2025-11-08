@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // Fix: Add Variants to framer-motion import
 import { motion, Variants } from 'framer-motion';
@@ -7,6 +7,30 @@ import ArrowIcon from '../components/icons/ArrowIcon';
 import { useContent } from '../hooks/useContent';
 import { usePreloader } from '../hooks/usePreloader';
 import { Project } from '../types';
+
+const HOME_VIDEO_SRC = '/videos/tamil-template.mp4';
+
+/**
+ * Determines the MIME type of a video file based on its URL extension.
+ * @param url The URL of the video file.
+ * @returns The corresponding video MIME type.
+ */
+const getVideoMimeType = (url: string): string => {
+  if (!url) return '';
+  const extension = url.split('.').pop()?.toLowerCase();
+  switch (extension) {
+    case 'mp4':
+      return 'video/mp4';
+    case 'webm':
+      return 'video/webm';
+    case 'ogv':
+    case 'ogg':
+      return 'video/ogg';
+    default:
+      // Let the browser infer if we can't determine it.
+      return ''; 
+  }
+};
 
 const title = "VIKAS";
 const titleContainerVariants = {
@@ -33,6 +57,39 @@ const letterVariants: Variants = {
 
 const HomePage: React.FC = () => {
   const { content } = useContent();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    const containerElement = containerRef.current;
+    if (!videoElement || !containerElement) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const source = videoElement.querySelector('source');
+          if (source && !source.getAttribute('src')) {
+            source.src = HOME_VIDEO_SRC;
+            videoElement.load();
+          }
+          videoElement.play().catch(error => {
+            if (error.name !== 'AbortError') {
+              console.error("Background video autoplay was prevented:", error);
+            }
+          });
+          observer.unobserve(containerElement);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(containerElement);
+
+    return () => {
+      observer.unobserve(containerElement);
+    };
+  }, []);
 
   // Extract all media URLs to be preloaded for the portfolio page
   const portfolioMediaUrls = useMemo(() => {
@@ -43,7 +100,12 @@ const HomePage: React.FC = () => {
     content.projects.forEach((project: Project) => {
       if (project.thumbnail) urls.add(project.thumbnail);
       if (project.thumbnailVideo) urls.add(project.thumbnailVideo);
-      if (project.heroMedia?.src) urls.add(project.heroMedia.src);
+      if (project.heroMedia?.type === 'image' && project.heroMedia.src) {
+         urls.add(project.heroMedia.src);
+      }
+      if (project.heroMedia?.type === 'video' && project.heroMedia.src) {
+        urls.add(project.heroMedia.src);
+      }
       if (project.gallery) {
         project.gallery.forEach(url => urls.add(url));
       }
@@ -57,13 +119,20 @@ const HomePage: React.FC = () => {
   
   return (
     <AnimatedPage type="fade">
-      <div className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-        <img
-          src="https://images.pexels.com/photos/57690/pexels-photo-57690.jpeg?auto=compress&cs=tinysrgb&w=1920"
-          alt="Designer's desk with a laptop, notebook, and camera"
+      <div ref={containerRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <video
+          ref={videoRef}
           className="absolute top-1/2 left-1/2 w-full h-full object-cover -translate-x-1/2 -translate-y-1/2"
-        />
-        <div className="absolute inset-0 bg-black/50"></div>
+          loop
+          muted
+          playsInline
+          crossOrigin="anonymous"
+          preload="none"
+          poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        >
+          <source src="" type={getVideoMimeType(HOME_VIDEO_SRC)} />
+        </video>
+        <div className="absolute inset-0 bg-black/60"></div>
 
         <div className="relative z-10 text-center text-white p-4">
           <motion.h1

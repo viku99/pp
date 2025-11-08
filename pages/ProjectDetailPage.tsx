@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Project } from '../types';
@@ -8,42 +8,85 @@ import { useContent } from '../hooks/useContent';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorDisplay from '../components/ErrorDisplay';
 
+/**
+ * Determines the MIME type of a video file based on its URL extension.
+ * @param url The URL of the video file.
+ * @returns The corresponding video MIME type.
+ */
+const getVideoMimeType = (url: string): string => {
+  if (!url) return '';
+  const extension = url.split('.').pop()?.toLowerCase();
+  switch (extension) {
+    case 'mp4':
+      return 'video/mp4';
+    case 'webm':
+      return 'video/webm';
+    case 'ogv':
+    case 'ogg':
+      return 'video/ogg';
+    default:
+      // Let the browser infer if we can't determine it.
+      return ''; 
+  }
+};
+
 const HeroMedia: React.FC<{ media: Project['heroMedia']; poster?: string }> = ({ media, poster }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    if (media.type !== 'video') return;
+
+    const videoElement = videoRef.current;
+    const containerElement = containerRef.current;
+    if (!videoElement || !containerElement) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const source = videoElement.querySelector('source');
+          if (source && source.getAttribute('src') !== media.src) {
+            source.src = media.src;
+            videoElement.load();
+          }
+          videoElement.play().catch(error => {
+            if (error.name !== 'AbortError') {
+              console.error("Hero video autoplay was prevented:", error);
+            }
+          });
+          observer.unobserve(containerElement);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(containerElement);
+
+    return () => {
+      observer.unobserve(containerElement);
+    };
+  }, [media]);
+
+
   switch (media.type) {
     case 'image':
       return <img src={media.src} alt="Project hero" className="w-full h-auto object-cover" loading="lazy" />;
     case 'video':
       return (
-        <div className="aspect-video bg-black">
+        <div ref={containerRef} className="aspect-video bg-black">
           <video
+            ref={videoRef}
             className="w-full h-full object-cover"
             loop
             muted
-            autoPlay
             playsInline
             controls
-            preload="auto"
+            preload="none"
             crossOrigin="anonymous"
             poster={poster}
-            key={media.src}
           >
-            <source src={media.src} type="video/mp4" />
+            <source src="" type={getVideoMimeType(media.src)} />
             Your browser does not support the video tag.
           </video>
-        </div>
-      );
-    case 'youtube':
-      return (
-        <div className="aspect-video">
-          <iframe
-            src={`https://www.youtube.com/embed/${media.src}?autoplay=1&mute=1&loop=1&playlist=${media.src}&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1`}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="w-full h-full"
-            title="YouTube video player"
-            loading="lazy"
-          ></iframe>
         </div>
       );
     default:

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { Project } from '../types';
 
 interface ProjectCardProps {
@@ -8,7 +8,33 @@ interface ProjectCardProps {
   className?: string;
 }
 
-const itemVariants = {
+/**
+ * Determines the MIME type of a video file based on its URL extension.
+ * @param url The URL of the video file.
+ * @returns The corresponding video MIME type.
+ */
+const getVideoMimeType = (url: string | undefined): string => {
+  if (!url) return '';
+  // For blob URLs, we can't infer from an extension, so we let the browser handle it.
+  if (url.startsWith('blob:')) return ''; 
+  const extension = url.split('.').pop()?.toLowerCase();
+  switch (extension) {
+    case 'mp4':
+      return 'video/mp4';
+    case 'webm':
+      return 'video/webm';
+    case 'ogv':
+    case 'ogg':
+      return 'video/ogg';
+    default:
+      // Let the browser infer if we can't determine it.
+      return ''; 
+  }
+};
+
+
+// Fix: Explicitly type itemVariants as Variants to resolve the type error with the 'ease' property.
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -25,9 +51,53 @@ const smoothEase: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, className }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const hasVideo = !!project.thumbnailVideo;
+  
+  useEffect(() => {
+    const cardElement = cardRef.current;
+    if (!cardElement) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(cardElement);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(cardElement);
+
+    return () => {
+      observer.unobserve(cardElement);
+    };
+  }, []);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      if (isHovered) {
+        videoElement.play().catch(error => {
+            // This error is expected when the user quickly hovers away from the card
+            // before the video has a chance to start playing. We can safely ignore it.
+            if (error.name !== 'AbortError') {
+                console.error("Hover video play failed:", error);
+            }
+        });
+      } else {
+        videoElement.pause();
+        videoElement.currentTime = 0;
+      }
+    }
+  }, [isHovered]);
 
   return (
     <motion.div 
+        ref={cardRef}
         variants={itemVariants} 
         className={`relative block overflow-hidden ${className}`}
         onMouseEnter={() => setIsHovered(true)}
@@ -38,10 +108,28 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, className }) => {
           src={project.thumbnail}
           alt={`${project.title} thumbnail`}
           className="absolute inset-0 w-full h-full object-cover"
-          animate={{ scale: isHovered ? 1.03 : 1 }}
+          animate={{ scale: isHovered ? (hasVideo ? 0.97 : 1.03) : 1 }}
           transition={{ duration: 0.6, ease: smoothEase }}
           loading="lazy"
         />
+        
+        {hasVideo && (
+            <motion.video
+                ref={videoRef}
+                className="absolute inset-0 w-full h-full object-cover"
+                loop
+                muted
+                playsInline
+                crossOrigin="anonymous"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: isHovered ? 1 : 0, scale: isHovered ? 1.03 : 0.95 }}
+                transition={{ duration: 0.6, ease: smoothEase }}
+                preload="none"
+                poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+            >
+              {isVisible && <source src={project.thumbnailVideo} type={getVideoMimeType(project.thumbnailVideo)} />}
+            </motion.video>
+        )}
         
         {/* Enhanced gradient overlay ensures text is always readable */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
