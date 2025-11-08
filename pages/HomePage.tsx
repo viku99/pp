@@ -8,16 +8,14 @@ import { useContent } from '../hooks/useContent';
 import { usePreloader } from '../hooks/usePreloader';
 import { Project } from '../types';
 
-const HOME_VIDEO_SRC = '/videos/tamil-template.mp4';
-
 /**
  * Determines the MIME type of a video file based on its URL extension.
  * @param url The URL of the video file.
  * @returns The corresponding video MIME type.
  */
 const getVideoMimeType = (url: string): string => {
-  if (!url) return '';
-  const extension = url.split('.').pop()?.toLowerCase();
+  if (!url || !url.includes('.')) return ''; // Return early if no url or no extension
+  const extension = url.split('.').pop()?.split('?')[0].toLowerCase(); // Handle query params
   switch (extension) {
     case 'mp4':
       return 'video/mp4';
@@ -60,17 +58,19 @@ const HomePage: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   
+  const homeVideoSrc = content?.homeBackgroundVideo || '';
+
   useEffect(() => {
     const videoElement = videoRef.current;
     const containerElement = containerRef.current;
-    if (!videoElement || !containerElement) return;
+    if (!videoElement || !containerElement || !homeVideoSrc.startsWith('http')) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           const source = videoElement.querySelector('source');
           if (source && !source.getAttribute('src')) {
-            source.src = HOME_VIDEO_SRC;
+            source.src = homeVideoSrc;
             videoElement.load();
           }
           videoElement.play().catch(error => {
@@ -87,9 +87,11 @@ const HomePage: React.FC = () => {
     observer.observe(containerElement);
 
     return () => {
-      observer.unobserve(containerElement);
+      if (containerElement) {
+        observer.unobserve(containerElement);
+      }
     };
-  }, []);
+  }, [homeVideoSrc]);
 
   // Extract all media URLs to be preloaded for the portfolio page
   const portfolioMediaUrls = useMemo(() => {
@@ -99,11 +101,11 @@ const HomePage: React.FC = () => {
 
     content.projects.forEach((project: Project) => {
       if (project.thumbnail) urls.add(project.thumbnail);
-      if (project.thumbnailVideo) urls.add(project.thumbnailVideo);
+      if (project.thumbnailVideo && project.thumbnailVideo.startsWith('http')) urls.add(project.thumbnailVideo);
       if (project.heroMedia?.type === 'image' && project.heroMedia.src) {
          urls.add(project.heroMedia.src);
       }
-      if (project.heroMedia?.type === 'video' && project.heroMedia.src) {
+      if (project.heroMedia?.type === 'video' && project.heroMedia.src.startsWith('http')) {
         urls.add(project.heroMedia.src);
       }
       if (project.gallery) {
@@ -130,7 +132,7 @@ const HomePage: React.FC = () => {
           preload="none"
           poster="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
         >
-          <source src="" type={getVideoMimeType(HOME_VIDEO_SRC)} />
+          <source src="" type={getVideoMimeType(homeVideoSrc)} />
         </video>
         <div className="absolute inset-0 bg-black/60"></div>
 

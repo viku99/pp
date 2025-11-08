@@ -1,7 +1,18 @@
 import { Content } from './types';
 
+// =================================================================================================
+// IMPORTANT: VIDEO URLS
+// =================================================================================================
+// To make your videos work, you need to replace the placeholder strings below 
+// (e.g., "PASTE_YOUR_VIDEO_URL_HERE") with the actual, direct URLs to your video files.
+//
+// Please follow the guide provided in the chat on how to upload your videos
+// to GitHub Releases and get these URLs.
+// =================================================================================================
+
 export const contentData: Content = {
   lastUpdated: "July 26, 2024",
+  homeBackgroundVideo: "PASTE_YOUR_TAMIL_TEMPLATE_OR_HOME_VIDEO_URL_HERE",
   about: {
     bio: "A visual architect and storyteller, I specialize in crafting compelling narratives through the language of motion and visual effects. With a foundation in cinematic principles and a relentless pursuit of technical innovation, I transform abstract concepts into tangible, emotive experiences. My studio is a laboratory where light, texture, and movement converge to build worlds, evoke emotion, and leave a lasting impact.",
     imageUrl: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
@@ -47,8 +58,8 @@ export const contentData: Content = {
       "title": "NOVA: Genesis Drive",
       "category": "Motion Graphics",
       "thumbnail": "https://images.pexels.com/photos/3802510/pexels-photo-3802510.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "thumbnailVideo": "/videos/nova-genesis-drive.mp4",
-      "heroMedia": { "type": "video", "src": "/videos/nova-genesis-drive.mp4" },
+      "thumbnailVideo": "PASTE_YOUR_NOVA_GENESIS_DRIVE_VIDEO_URL_HERE",
+      "heroMedia": { "type": "video", "src": "PASTE_YOUR_NOVA_GENESIS_DRIVE_VIDEO_URL_HERE" },
       "client": "AURA Automotive",
       "year": 2024,
       "tools": ["Cinema 4D", "Redshift", "After Effects", "DaVinci Resolve"],
@@ -78,8 +89,8 @@ export const contentData: Content = {
       "title": "Project: Defiance",
       "category": "UI Animation",
       "thumbnail": "https://images.pexels.com/photos/5474028/pexels-photo-5474028.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "thumbnailVideo": "/videos/project-defiance.mp4",
-      "heroMedia": { "type": "video", "src": "/videos/project-defiance.mp4" },
+      "thumbnailVideo": "PASTE_YOUR_PROJECT_DEFIANCE_VIDEO_URL_HERE",
+      "heroMedia": { "type": "video", "src": "PASTE_YOUR_PROJECT_DEFIANCE_VIDEO_URL_HERE" },
       "client": "CYGNUS Interactive",
       "year": 2024,
       "tools": ["Figma", "After Effects", "Unreal Engine"],
@@ -90,8 +101,8 @@ export const contentData: Content = {
       "title": "Liquid Chroma",
       "category": "VFX",
       "thumbnail": "https://images.pexels.com/photos/1408199/pexels-photo-1408199.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "thumbnailVideo": "/videos/liquid-chroma.mp4",
-      "heroMedia": { "type": "video", "src": "/videos/liquid-chroma.mp4" },
+      "thumbnailVideo": "PASTE_YOUR_LIQUID_CHROMA_VIDEO_URL_HERE",
+      "heroMedia": { "type": "video", "src": "PASTE_YOUR_LIQUID_CHROMA_VIDEO_URL_HERE" },
       "client": "AURORA (Musical Artist)",
       "year": 2023,
       "tools": ["Houdini", "Maya", "Bifrost", "Nuke"],
@@ -117,8 +128,8 @@ export const contentData: Content = {
       "title": "Ephemeral Structures",
       "category": "Experimental",
       "thumbnail": "https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      "thumbnailVideo": "/videos/ephemeral-structures.mp4",
-      "heroMedia": { "type": "video", "src": "/videos/ephemeral-structures.mp4" },
+      "thumbnailVideo": "PASTE_YOUR_EPHEMERAL_STRUCTURES_VIDEO_URL_HERE",
+      "heroMedia": { "type": "video", "src": "PASTE_YOUR_EPHEMERAL_STRUCTURES_VIDEO_URL_HERE" },
       "client": "Personal R&D",
       "year": 2024,
       "tools": ["Houdini", "Redshift", "ZBrush", "Fusion"],

@@ -44,6 +44,7 @@ export interface SocialLink {
 
 export interface Content {
   lastUpdated: string;
+  homeBackgroundVideo: string;
   about: About;
   skills: Skill[];
   testimonials: Testimonial[];
